@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # API_NodeJS_KTPM
 API chức năng quản lý xuất xứ và quản lý khách hàng, môn kiểm thử phần mềm
 Cài đặt tất cả các thư viện sau:
@@ -24,3 +25,7 @@ Tạo file .env ghi giá trị PORT = <ví dụ cổng 3000>
 # Khởi động server:
 Chạy file Service.js để khởi động 
 Gõ lệnh npm start trong terminal
+=======
+# JWT-NodeJS-React-tutorial
+Demo với NodeJS và React cho web phân quyền người dùng
+>>>>>>> 977d4c3 (Initial commit)
