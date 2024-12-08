@@ -9,6 +9,51 @@ export const getKhachHangList = async (req, res) => {
     }
 };
 
+export const searchKhachHang = async (req, res) => {
+    const { id, tenkhachhang } = req.body;
+    try {
+        // Nếu không có cả id và tenkhachhang
+        if (!id && !tenkhachhang) {
+            const khachHangList = await khachHangService.getKhachHangList();
+            return res.status(200).json({ status: "success", message: "Trả về toàn bộ danh sách khách hàng", data: khachHangList});
+        }
+        // Nếu có id, tìm theo ID
+        if (id) {
+            const khachHangById = await khachHangService.getKhachHangByID(id);
+            if (!khachHangById) {
+                return res.status(404).json({ status: "error", message: "Không tìm thấy khách hàng với ID được cung cấp " });
+            }
+            return res.status(200).json({ status: "success", message: "Tìm kiếm khách hàng theo ID thành công", data: khachHangById});
+        }
+        // Nếu có tenkhachhang, tìm theo tên
+        if (tenkhachhang) {
+            const khachHangByName = await khachHangService.searchNameKhachHang(tenkhachhang);
+            if (!khachHangByName) {
+                return res.status(404).json({ status: "error", message: "Không tìm thấy khách hàng với tên được cung cấp" });
+            }
+            return res.status(200).json({ status: "success", message: "Tìm kiếm khách hàng theo tên thành công", data: khachHangByName});
+        }
+    } catch (error) {
+        res.status(500).json({ status: "error", message: 'Lỗi khi tìm kiếm', error: error.message });
+    }
+};
+
+export const getKhachHangByName = async (req, res) => {
+    const { tenkhachhang } = req.body;
+    try {
+        const khachHang = await khachHangService.getKhachHangByName(tenkhachhang);
+        if (khachHang) {
+            return res.status(400).json({ status: "error", message: 'Tên khách hàng đã tồn tại trong hệ thống' });
+        }
+        if (!khachHang) {
+            return res.status(404).json({ status: "error", message: 'Không tìm thấy khách hàng' });
+        }
+        res.status(200).json({ status: "success", message: 'Tìm kiếm khách hàng thành công', data: khachHang });
+    } catch (error) {
+        res.status(500).json({ status: "error", message: 'Lỗi khi tìm kiếm', error: error.message });
+    }
+};
+
 const validateKhachHang = (tenkhachhang, diachi, sdt) => {
     if (!tenkhachhang) {
         return { valid: false, message: 'Tên khách hàng không được để trống' };

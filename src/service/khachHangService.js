@@ -45,6 +45,19 @@ const getKhachHangByID = async (id) => {
         throw new Error(`Error fetching khachHang by ID: ${err.message}`);
     }
 };
+const searchNameKhachHang = async (tenKhachHang) => {
+    try {
+        const connection = await createConnection();
+        const [rows] = await connection.execute(
+            'SELECT * FROM khachhang WHERE tenkhachhang LIKE ? AND trangthai = 1', [`%${tenKhachHang}%`] 
+        );
+        await connection.end();
+        return rows.length > 0 ? rows : null; 
+    } catch (err) {
+        throw new Error(`Error fetching khachHang by name: ${err.message}`);
+    }
+};
+
 
 const createNewKhachHang = async (tenKhachHang, diaChi, soDienThoai) => {
     try {
@@ -84,4 +97,4 @@ const deleteKhachHang = async (id) => {
 
 
 
-export default { getKhachHangList, getKhachHangByName, getKhachHangByPhone, getKhachHangByID, createNewKhachHang, updateKhachHang, deleteKhachHang };
+export default { getKhachHangList, getKhachHangByName, getKhachHangByPhone, getKhachHangByID, createNewKhachHang, updateKhachHang, deleteKhachHang, searchNameKhachHang };

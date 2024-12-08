@@ -1,6 +1,6 @@
 import express from "express";
 import { getXuatXuList, addXuatXu, updateXuatXu, deleteXuatXu } from '../controller/xuatxuController.js';
-import { getKhachHangList, addKhachHang, updateKhachHang, deleteKhachHang } from '../controller/khachHangController.js';
+import { getKhachHangList, addKhachHang, updateKhachHang, deleteKhachHang, searchKhachHang } from '../controller/khachHangController.js';
 
 const router = express.Router();
 
@@ -13,6 +13,7 @@ const initApiRoutes = (app) => {
 
     // KhachHang routes
     router.get('/khachhang', getKhachHangList); // API để lấy danh sách khách hàng
+    router.get('/khachhang/search', searchKhachHang); // API để lấy khách hàng theo id và tên
     router.post('/khachhang/add', addKhachHang); // API để thêm khách hàng
     router.put('/update-khachhang/:id', updateKhachHang); // API để cập nhật khách hàng
     router.delete('/delete-khachhang/:id', deleteKhachHang); // API để xóa khách hàng
